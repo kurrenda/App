@@ -11,7 +11,7 @@ const app = express();
 
 
 app.listen(PORT, () => {
-  console.log('Server is running on Port 3000');
+  console.log(`Server is running on ${PORT}`);
 })
 
 //mongose
@@ -37,6 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // routes
 
-const defaultRoutes = require('./routes/default/defaultRoutes')
+const defaultRoutes = require('./routes/defaultRoutes');
+app.use('/', defaultRoutes);
 
 module.exports = app;
