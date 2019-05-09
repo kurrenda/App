@@ -38,6 +38,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 // routes
 
 const defaultRoutes = require('./routes/defaultRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 app.use('/', defaultRoutes);
+app.use('/admin', adminRoutes);
+
 
 module.exports = app;
