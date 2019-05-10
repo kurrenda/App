@@ -23,5 +23,6 @@ module.exports = {
     sensor: (req,res) => {
         res.render('default/sensor');
     }
-
 };
+
+
