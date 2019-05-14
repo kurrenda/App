@@ -9,7 +9,6 @@ const {mongoDbUrl, PORT} = require('./config/configuration');
 const flash = require('connect-flash');
 const session = require('express-session');
 const {globalVariables} = require('./config/configuration');
-
 const app = express();
 
 
@@ -61,20 +60,28 @@ const adminRoutes = require('./routes/adminRoutes');
 app.use('/', defaultRoutes);
 app.use('/admin', adminRoutes);
 
+//socket
+//
+const SensorPost = require("./models/PostModel").Post;
+
+app.set('socket.io',io);
+
 var io = require('socket.io')(server);
 const SerialPort = require('serialport');
 const Readline = SerialPort.parsers.Readline;
 const port = new SerialPort('COM4'); //Connect serial port to port COM3. Because my Arduino Board is connected on port COM3. See yours on Arduino IDE -> Tools -> Port
 const parser = port.pipe(new Readline({delimiter: ',\r\n'})); //Read the line only when new line comes.
 
+parser.on('data', (temp) => { //Read data
+    console.log(temp);
+    var today = new Date();
+    io.sockets.emit('temp', {date: today.getDate()+"-"+today.getMonth()+"-"+today.getFullYear(), time: (today.getHours())+":"+(today.getMinutes()+":"+ today.getMilliseconds()), temp: temp.split(",")}); //emit the datd i.e. {date, time, temp} to all the connected clients
+    var sensor = new SensorPost({status: temp});
+    sensor.save();
+});
 
 io.on('connection', (socket) => {
     console.log("Someone connected.");
-    parser.on('data', (temp) => { //Read data
-        console.log(temp);
-        var today = new Date();
-        io.sockets.emit('temp', {date: today.getDate()+"-"+today.getMonth()+"-"+today.getFullYear(), time: (today.getHours())+":"+(today.getMinutes()+":"+ today.getMilliseconds()), temp: temp.split(",")}); //emit the datd i.e. {date, time, temp} to all the connected clients.
-    });
 });
 
 

@@ -7,7 +7,14 @@ module.exports ={
     },
 
     getPosts: (req,res) => {
-        res.render('admin/posts/index');
+
+        var perPage = 9;
+        var page = req.params.page || 1
+
+
+        Post.find().skip((perPage * page) - perPage).limit(perPage).then(posts =>{
+            res.render('admin/posts/index', {posts: posts});
+        })
     },
 
     submitPost: (req,res) => {

@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="alert alert-secondary text-center">
+        <h1>ALL POSTS</h1>
+    </div>
+
+    <table class="table table-bordered table">
+        <thead class="bg-dark text-center">
+            <tr class="text-white">
+                <th> ID </th>
+                <th> Sensor Name </th>
+                <th> Status </th>
+                <th> Creation Date </th>
+            </tr>
+        </thead>
+        <tbody class="text-center">
+        {{#each posts}}
+        <tr>
+            <td>{{_id}}</td>
+            <td>{{title}}</td>
+            <td>{{status}}</td>
+            <td>{{creationdate}}</td>
+
+        </tr>
+        {{/each}}
+        </tbody>
+    </table>
+
+</div>

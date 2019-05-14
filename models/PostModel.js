@@ -28,7 +28,7 @@ const PostSchema = new Schema({
 
 });
 
-// module.exports = {Post: mongoose.model('post', PostSchema)};
+module.exports = {Post: mongoose.model('post', PostSchema)};
 
-let SensorPost = mongoose.model('SensorPost', PostSchema);
-module.exports = SensorPost;
+//let SensorPost = mongoose.model('SensorPost', PostSchema);
+//module.exports = SensorPost;
